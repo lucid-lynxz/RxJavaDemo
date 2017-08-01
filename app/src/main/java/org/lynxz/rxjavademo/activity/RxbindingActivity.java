@@ -1,8 +1,5 @@
 package org.lynxz.rxjavademo.activity;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -11,6 +8,7 @@ import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import org.lynxz.rxjavademo.Logger;
 import org.lynxz.rxjavademo.R;
+import org.lynxz.rxjavademo.base.BaseActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,16 +19,18 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 
-public class RxbindingActivity extends AppCompatActivity {
+public class RxbindingActivity extends BaseActivity {
     private static final String TAG = "RxbindingActivity";
     private EditText mEdtInput;
     private Button mBtnDoubleClick;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rxbinding);
+    public int getLayoutRes() {
+        return R.layout.activity_rxbinding;
+    }
 
+    @Override
+    public void afterCreate() {
         mEdtInput = (EditText) findViewById(R.id.edt_input);
         mBtnDoubleClick = (Button) findViewById(R.id.btn_double_click);
 
@@ -54,17 +54,18 @@ public class RxbindingActivity extends AppCompatActivity {
 
             @Override
             public void onNext(@NonNull CharSequence charSequence) {
-                Logger.d("onNext: " + charSequence, TAG);
+                appendLog(System.currentTimeMillis() + "\ttextChanges onNext: " + charSequence);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
-                Logger.d("error: " + e.getMessage(), TAG);
+                appendLog("textChanges onError: " + e.getMessage());
             }
 
             @Override
             public void onComplete() {
                 Logger.d("onComplete", TAG);
+                appendLog("textChanges onComplete");
             }
         });
 
@@ -76,7 +77,7 @@ public class RxbindingActivity extends AppCompatActivity {
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
-                        Logger.d("on next " + (o instanceof View.OnClickListener), TAG);
+                        appendLog(System.currentTimeMillis() + "\t收到单击事件 onNext: " + o);
                     }
                 });
     }

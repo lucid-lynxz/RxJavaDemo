@@ -8,48 +8,58 @@
     android:orientation="vertical"
     tools:context="org.lynxz.rxjavademo.activity.ErrorHandlerActivity">
 
-    <Button
-        android:id="@+id/btn_error_return"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="onErrorReturn"
-        android:textAllCaps="false"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_error_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:text="error return"
+            android:textAllCaps="false"/>
 
 
-    <Button
-        android:id="@+id/btn_error_resume_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="onErrorResumeNext"
-        android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/btn_error_resume_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:text="error Resume"
+            android:textAllCaps="false"/>
 
 
-    <Button
-        android:id="@+id/btn_exception_resume_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="onExceptionResumeNext"
-        android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/btn_exception_resume_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:text="exception resume"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:text="retry"
+            android:textAllCaps="false"/>
 
 
-    <Button
-        android:id="@+id/btn_retry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="retry"
-        android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/btn_retry_when"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:text="retryWhen"
+            android:textAllCaps="false"/>
+    </LinearLayout>
 
-
-    <Button
-        android:id="@+id/btn_retry_when"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="retryWhen"
-        android:textAllCaps="false"/>
 
 </LinearLayout>

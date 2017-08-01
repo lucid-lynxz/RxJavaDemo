@@ -1,14 +1,11 @@
 package org.lynxz.rxjavademo.activity;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import org.lynxz.rxjavademo.Logger;
 import org.lynxz.rxjavademo.R;
+import org.lynxz.rxjavademo.base.BaseActivity;
 
 import java.util.HashSet;
-import java.util.Iterator;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -21,22 +18,22 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class OperatorDemoActivity extends AppCompatActivity {
+public class OperatorDemoActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_operator_demo);
+    public int getLayoutRes() {
+        return R.layout.activity_operator_demo;
+    }
 
-        findViewById(R.id.btn_zip).setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void afterCreate() {
+        findView(R.id.btn_zip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 testZip();
             }
         });
-
-
-        findViewById(R.id.btn_merge).setOnClickListener(new View.OnClickListener() {
+        findView(R.id.btn_merge).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 testMerge();
@@ -44,16 +41,17 @@ public class OperatorDemoActivity extends AppCompatActivity {
         });
     }
 
-
     /**
      * 参考: http://www.jianshu.com/p/bb58571cdb64
      */
     private void testZip() {
+        appendLog("\n zip功能测试...");
         Observable<Integer> observable1 = Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<Integer> e) throws Exception {
                 for (int i = 0; i < 10; i++) {
                     e.onNext(i);
+                    appendLog(">> Observable1 发送事件onNext: " + i);
                 }
             }
         });
@@ -62,7 +60,9 @@ public class OperatorDemoActivity extends AppCompatActivity {
             @Override
             public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
                 for (int i = 0; i < 6; i++) {
-                    e.onNext("value" + i + " =");
+                    String msg = "value" + i + " =";
+                    e.onNext(msg);
+                    appendLog(">> Observable2 发送事件onNext: " + msg);
                 }
             }
         });
@@ -82,13 +82,14 @@ public class OperatorDemoActivity extends AppCompatActivity {
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(@NonNull String s) throws Exception {
-                        Logger.d("receive " + s);
+                        appendLog("<< zip Consumer 收到事件 onNext: " + s);
                     }
                 });
 
     }
 
     private void testMerge() {
+        appendLog("\n merge 功能测试...");
         Observable.merge(getDataFromLocal(), getDataFromNetWork())
                 .subscribe(new Observer<HashSet<String>>() {
                     @Override
@@ -97,19 +98,20 @@ public class OperatorDemoActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(@NonNull HashSet<String> set) {
-                        for (Iterator<String> it = set.iterator(); it.hasNext(); ) {
-                            Logger.d("onnext " + it.next());
+                        for (String aSet : set) {
+                            appendLog("<< merge Consumer 收到事件 onNext: " + aSet);
                         }
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
                         e.printStackTrace();
+                        appendLog("<< merge Consumer 收到事件 onError " + e.getMessage());
                     }
 
                     @Override
                     public void onComplete() {
-                        Logger.d("onComplete");
+                        appendLog("<< merge Consumer 收到事件 onComplete ");
                     }
                 });
     }

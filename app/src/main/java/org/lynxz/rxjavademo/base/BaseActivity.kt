@@ -3,8 +3,11 @@ package org.lynxz.rxjavademo.base
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ScrollView
 import kotlinx.android.synthetic.main.activity_base.*
 import org.lynxz.rxjavademo.R
+
 
 @Suppress("UNCHECKED_CAST")
 abstract class BaseActivity : AppCompatActivity() {
@@ -13,6 +16,7 @@ abstract class BaseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_base)
 
         val customView = layoutInflater.inflate(getLayoutRes(), null, false)
+        customView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         rl_container.addView(customView)
         afterCreate()
     }
@@ -31,8 +35,18 @@ abstract class BaseActivity : AppCompatActivity() {
         if (msg != null) {
             runOnUiThread {
                 tv_logs.append("\n$msg")
+                scroll2Bottom(sv_log, tv_logs)
             }
         }
+    }
+
+    fun scroll2Bottom(scroll: ScrollView, inner: View) {
+        // 内层高度超过外层
+        var offset = inner.measuredHeight - scroll.measuredHeight
+        if (offset < 0) {
+            offset = 0
+        }
+        scroll.scrollTo(0, offset + 50)
     }
 
     /**

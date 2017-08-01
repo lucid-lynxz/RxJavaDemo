@@ -1,11 +1,10 @@
 package org.lynxz.rxjavademo.activity;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.lynxz.rxjavademo.Logger;
 import org.lynxz.rxjavademo.R;
+import org.lynxz.rxjavademo.base.BaseActivity;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -20,21 +19,73 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * 参考: http://blog.csdn.net/io_field/article/details/52439967
  */
-public class ErrorHandlerActivity extends AppCompatActivity {
+public class ErrorHandlerActivity extends BaseActivity {
     private static final String TAG = "ErrorHandlerActivity";
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.activity_error_handler;
+    }
+
+    @Override
+    public void afterCreate() {
+        findView(R.id.btn_error_return).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testErrorReturn();
+            }
+        });
+
+        findView(R.id.btn_error_resume_next).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testErrorResume();
+            }
+        });
+
+        findView(R.id.btn_exception_resume_next).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testExceptionResume();
+            }
+        });
+
+        findView(R.id.btn_retry).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testRetry();
+            }
+        });
+
+        findView(R.id.btn_retry_when).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testRetryWhen();
+            }
+        });
+    }
+
     private Observable<Integer> mObservable = Observable.create(new ObservableOnSubscribe<Integer>() {
         @Override
         public void subscribe(@NonNull ObservableEmitter<Integer> e) throws Exception {
+            appendLog(">> mObservable 发送onNext事件: 0");
             e.onNext(0);
+            appendLog(">> mObservable 发送onNext事件: 1");
             e.onNext(1);
+            appendLog(">> mObservable 发送onNext事件: 2");
             e.onNext(2);
 
+            appendLog(">> mObservable 发送 onError 事件");
             e.onError(new Throwable("error occur"));
 
+            appendLog(">> mObservable 发送onNext事件: 5");
             e.onNext(5);
+            appendLog(">> mObservable 发送onNext事件: 6");
             e.onNext(6);
+            appendLog(">> mObservable 发送onNext事件: 7");
             e.onNext(7);
 
+            appendLog(">> mObservable 发送 onComplete 事件");
             e.onComplete();
         }
     }).subscribeOn(Schedulers.io());
@@ -42,16 +93,24 @@ public class ErrorHandlerActivity extends AppCompatActivity {
     private Observable<Integer> mExceptionObservable = Observable.create(new ObservableOnSubscribe<Integer>() {
         @Override
         public void subscribe(@NonNull ObservableEmitter<Integer> e) throws Exception {
+            appendLog(">> mExceptionObservable 发送onNext事件: 0");
             e.onNext(0);
+            appendLog(">> mExceptionObservable 发送onNext事件: 1");
             e.onNext(1);
+            appendLog(">> mExceptionObservable 发送onNext事件: 2");
             e.onNext(2);
 
+            appendLog(">> mExceptionObservable 发送 onError 事件");
             e.onError(new Exception("exception occur"));
 
+            appendLog(">> mExceptionObservable 发送onNext事件: 5");
             e.onNext(5);
+            appendLog(">> mExceptionObservable 发送onNext事件: 6");
             e.onNext(6);
+            appendLog(">> mExceptionObservable 发送onNext事件: 7");
             e.onNext(7);
 
+            appendLog(">> mExceptionObservable 发送 onComplete 事件");
             e.onComplete();
         }
     }).subscribeOn(Schedulers.io());
@@ -64,60 +123,19 @@ public class ErrorHandlerActivity extends AppCompatActivity {
 
         @Override
         public void onNext(@NonNull Integer integer) {
-            Logger.d("receive integer: " + integer, TAG);
+            appendLog("<< mObserver 收到 onNext 事件: " + integer);
         }
 
         @Override
         public void onError(@NonNull Throwable e) {
-            Logger.d("onError " + e.getMessage(), TAG);
+            appendLog("<< mObserver 收到 onError 事件: " + e.getMessage());
         }
 
         @Override
         public void onComplete() {
-            Logger.d("complete", TAG);
+            appendLog("<< mObserver 收到 onComplete 事件 ");
         }
     };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_error_handler);
-
-        findViewById(R.id.btn_error_return).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testErrorReturn();
-            }
-        });
-
-        findViewById(R.id.btn_error_resume_next).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testErrorResume();
-            }
-        });
-
-        findViewById(R.id.btn_exception_resume_next).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testExceptionResume();
-            }
-        });
-
-        findViewById(R.id.btn_retry).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testRetry();
-            }
-        });
-
-        findViewById(R.id.btn_retry_when).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testRetryWhen();
-            }
-        });
-    }
 
     /**
      * 发生错误时, 捕获异常,并尝试重新发送数据
@@ -137,26 +155,38 @@ public class ErrorHandlerActivity extends AppCompatActivity {
      * onError error occur
      */
     private void testRetry() {
+        appendLog("\n retry测试...");
         mObservable
                 .retry(2)
                 .subscribe(mObserver);
     }
 
     private void testRetryWhen() {
+        appendLog("\n retryWhen测试...");
         // 这里直接使用 mObservable 的话就无效...
 //        mObservable
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<Integer> e) throws Exception {
+                appendLog(">> mObservable 发送onNext事件: 0");
                 e.onNext(0);
+                appendLog(">> mObservable 发送onNext事件: 1");
                 e.onNext(1);
+                appendLog(">> mObservable 发送onNext事件: 2");
                 e.onNext(2);
 
+                appendLog(">> mObservable 发送 onError 事件");
                 e.onError(new Throwable("error occur"));
 
-                e.onNext(4);
+                appendLog(">> mObservable 发送onNext事件: 5");
                 e.onNext(5);
+                appendLog(">> mObservable 发送onNext事件: 6");
                 e.onNext(6);
+                appendLog(">> mObservable 发送onNext事件: 7");
+                e.onNext(7);
+
+                appendLog(">> mObservable 发送 onComplete 事件");
+                e.onComplete();
             }
         })
                 .retryWhen(new Function<Observable<Throwable>, ObservableSource<?>>() {
@@ -202,6 +232,7 @@ public class ErrorHandlerActivity extends AppCompatActivity {
      * complete
      */
     private void testErrorReturn() {
+        appendLog("\n errorReturn测试...");
         mObservable
                 .onErrorReturn(new Function<Throwable, Integer>() {
                     @Override
@@ -226,7 +257,7 @@ public class ErrorHandlerActivity extends AppCompatActivity {
      * complete
      */
     private void testErrorResume() {
-
+        appendLog("\n errorReusmeNext 测试...");
         mObservable
                 .onErrorResumeNext(Observable.just(111, 112))
                 .subscribe(mObserver);
@@ -257,10 +288,9 @@ public class ErrorHandlerActivity extends AppCompatActivity {
      * complete
      */
     private void testExceptionResume() {
+        appendLog("\n onExceptionResumeNext 测试...");
         mExceptionObservable
                 .onExceptionResumeNext(Observable.just(211, 212))
                 .subscribe(mObserver);
     }
-
-
 }
