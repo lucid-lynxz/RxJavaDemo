@@ -1,8 +1,11 @@
-package org.lynxz.rxjavademo;
+package org.lynxz.rxjavademo.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import org.lynxz.rxjavademo.Logger;
+import org.lynxz.rxjavademo.R;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;

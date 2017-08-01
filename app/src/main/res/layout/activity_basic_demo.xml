@@ -4,32 +4,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="org.lynxz.rxjavademo.BasicDemoActivity">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    tools:context="org.lynxz.rxjavademo.activity.BasicDemoActivity">
+
+    <Button
+        android:id="@+id/btn_basic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="基本使用"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/btn_countdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="countdown"
+        android:text="倒计时"
         android:textAllCaps="false"/>
-
-    <TextView
-        android:id="@+id/tv_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="info"/>
-
 
     <Button
         android:id="@+id/btn_delay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="delay"
+        android:text="延时"
         android:textAllCaps="false"/>
-
 </LinearLayout>

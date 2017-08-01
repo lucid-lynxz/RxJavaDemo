@@ -16,11 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".OperatorDemoActivity">
+        <activity android:name=".activity.OperatorDemoActivity">
         </activity>
-        <activity android:name=".BasicDemoActivity">
+        <activity android:name=".activity.BasicDemoActivity">
         </activity>
-        <activity android:name=".ErrorHandlerActivity">
+        <activity android:name=".activity.ErrorHandlerActivity">
+        </activity>
+        <activity android:name=".activity.RxbindingActivity">
         </activity>
     </application>
 

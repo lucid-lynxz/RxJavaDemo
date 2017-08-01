@@ -33,5 +33,13 @@
         android:text="error handler"
         android:textAllCaps="false"/>
 
+    <Button
+        android:id="@+id/btn_rx_binding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="rxbinding"
+        android:textAllCaps="false"/>
+
 
 </LinearLayout>
