@@ -25,7 +25,7 @@ public class ErrorHandlerActivity extends AppCompatActivity {
             e.onNext(2);
             e.onNext(3);
 
-            e.onError(new Exception("exception occur"));
+            e.onError(new Throwable("error occur"));
 
             e.onNext(5);
             e.onNext(6);
