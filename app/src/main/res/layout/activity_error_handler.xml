@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="org.lynxz.rxjavademo.ErrorHandlerActivity">
+
+    <Button
+        android:id="@+id/btn_error_return"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="onErrorReturn"
+        android:textAllCaps="false"/>
+
+
+    <Button
+        android:id="@+id/btn_error_resume_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="onErrorResumeNext"
+        android:textAllCaps="false"/>
+
+
+    <Button
+        android:id="@+id/btn_exception_resume_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="onExceptionResumeNext"
+        android:textAllCaps="false"/>
+
+</LinearLayout>
