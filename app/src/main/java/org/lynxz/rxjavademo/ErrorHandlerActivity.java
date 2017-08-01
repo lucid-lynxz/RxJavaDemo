@@ -7,6 +7,7 @@ import android.view.View;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -21,9 +22,9 @@ public class ErrorHandlerActivity extends AppCompatActivity {
     private Observable<Integer> mObservable = Observable.create(new ObservableOnSubscribe<Integer>() {
         @Override
         public void subscribe(@NonNull ObservableEmitter<Integer> e) throws Exception {
+            e.onNext(0);
             e.onNext(1);
             e.onNext(2);
-            e.onNext(3);
 
             e.onError(new Throwable("error occur"));
 
@@ -85,18 +86,103 @@ public class ErrorHandlerActivity extends AppCompatActivity {
                 testErrorReturn();
             }
         });
+
         findViewById(R.id.btn_error_resume_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 testErrorResume();
             }
         });
+
         findViewById(R.id.btn_exception_resume_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 testExceptionResume();
             }
         });
+
+        findViewById(R.id.btn_retry).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testRetry();
+            }
+        });
+
+        findViewById(R.id.btn_retry_when).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testRetryWhen();
+            }
+        });
+    }
+
+    /**
+     * 发生错误时, 捕获异常,并尝试重新发送数据
+     * 缺点是会造成数据重复
+     * <p>
+     * 以下代码打印的日志:
+     * onSubscribe
+     * receive integer: 0
+     * receive integer: 1
+     * receive integer: 2
+     * receive integer: 0
+     * receive integer: 1
+     * receive integer: 2
+     * receive integer: 0
+     * receive integer: 1
+     * receive integer: 2
+     * onError error occur
+     */
+    private void testRetry() {
+        mObservable
+                .retry(2)
+                .subscribe(mObserver);
+    }
+
+    private void testRetryWhen() {
+        // 这里直接使用 mObservable 的话就无效...
+//        mObservable
+        Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Integer> e) throws Exception {
+                e.onNext(0);
+                e.onNext(1);
+                e.onNext(2);
+
+                e.onError(new Throwable("error occur"));
+
+                e.onNext(4);
+                e.onNext(5);
+                e.onNext(6);
+            }
+        })
+                .retryWhen(new Function<Observable<Throwable>, ObservableSource<?>>() {
+                    @Override
+                    public ObservableSource<?> apply(@NonNull Observable<Throwable> throwableObservable) throws Exception {
+                        /*
+                        * 不会切换到新的数据源来发送数据,但会根据新数据源发送出来的事件数量来重试
+                        * 从日志可以发现, observer并未收到发生异常前的数据,
+                        * 以下代码返回的日志:
+                        * onSubscribe
+                        * receive integer: 0
+                        * receive integer: 1
+                        * receive integer: 2
+                        * receive integer: 0
+                        * receive integer: 1
+                        * receive integer: 2
+                        * complete
+                        * */
+                        return Observable.just(333, 334);
+                        /*
+                        * 不会切换到新的数据源来发送数据,但会根据新数据源发送出来的事件数量来重试
+                        * 以下代码返回的日志:
+                        * onSubscribe
+                        * onError do retryWhen
+                        * */
+//                        return Observable.error(new Throwable(" do retryWhen")); //  会发送指定的error事件
+                    }
+                })
+                .subscribe(mObserver);
     }
 
 
@@ -172,4 +258,6 @@ public class ErrorHandlerActivity extends AppCompatActivity {
                 .onExceptionResumeNext(Observable.just(211, 212))
                 .subscribe(mObserver);
     }
+
+
 }
