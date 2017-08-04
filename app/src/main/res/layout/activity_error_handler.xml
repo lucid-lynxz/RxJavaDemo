@@ -14,29 +14,20 @@
 
         <Button
             android:id="@+id/btn_error_return"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="error return"
-            android:textAllCaps="false"/>
+            style="@style/common_btn"
+            android:text="error return"/>
 
 
         <Button
             android:id="@+id/btn_error_resume_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="error Resume"
-            android:textAllCaps="false"/>
+            style="@style/common_btn"
+            android:text="error Resume"/>
 
 
         <Button
             android:id="@+id/btn_exception_resume_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="exception resume"
-            android:textAllCaps="false"/>
+            style="@style/common_btn"
+            android:text="exception resume"/>
     </LinearLayout>
 
     <LinearLayout
@@ -45,21 +36,13 @@
 
         <Button
             android:id="@+id/btn_retry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="retry"
-            android:textAllCaps="false"/>
-
+            style="@style/common_btn"
+            android:text="retry"/>
 
         <Button
             android:id="@+id/btn_retry_when"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:text="retryWhen"
-            android:textAllCaps="false"/>
+            style="@style/common_btn"
+            android:text="retryWhen"/>
     </LinearLayout>
-
 
 </LinearLayout>

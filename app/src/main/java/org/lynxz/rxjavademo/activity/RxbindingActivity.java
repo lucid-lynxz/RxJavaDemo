@@ -38,9 +38,9 @@ public class RxbindingActivity extends BaseActivity {
     }
 
     private void initEvent() {
-        // 间隔三秒发射一次事件
+        // 间隔1秒发射一次事件
         RxTextView.textChanges(mEdtInput)
-                .debounce(3000, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
+                .debounce(1000, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                 .filter(new Predicate<CharSequence>() {
                     @Override
                     public boolean test(@NonNull CharSequence charSequence) throws Exception {

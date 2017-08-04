@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context="org.lynxz.rxjavademo.activity.OperatorDemoActivity">
+    tools:context="org.lynxz.rxjavademo.activity.FilterDemoActivity">
 
     <Button
-        android:id="@+id/btn_zip"
+        android:id="@+id/btn_filter"
         style="@style/common_btn"
-        android:text="zip"/>
+        android:text="filter"/>
 
-    <Button
-        android:id="@+id/btn_merge"
-        style="@style/common_btn"
-        android:text="merge"/>
-</LinearLayout>
+
+</RelativeLayout>

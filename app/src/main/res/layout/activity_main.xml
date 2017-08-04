@@ -10,36 +10,21 @@
 
     <Button
         android:id="@+id/btn_basic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="basic"
-        android:textAllCaps="false"/>
-
-
+        style="@style/common_btn"
+        android:text="basic"/>
+    
     <Button
         android:id="@+id/btn_operator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="operator"
-        android:textAllCaps="false"/>
+        style="@style/common_btn"
+        android:text="operator"/>
 
     <Button
         android:id="@+id/btn_error"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="error handler"
-        android:textAllCaps="false"/>
+        style="@style/common_btn"
+        android:text="error handler"/>
 
     <Button
         android:id="@+id/btn_rx_binding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="rxbinding"
-        android:textAllCaps="false"/>
-
-
+        style="@style/common_btn"
+        android:text="rxbinding"/>
 </LinearLayout>

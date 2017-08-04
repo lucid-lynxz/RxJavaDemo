@@ -40,6 +40,10 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    protected fun clearLog(){
+        tv_logs.text = ""
+    }
+
     fun scroll2Bottom(scroll: ScrollView, inner: View) {
         // 内层高度超过外层
         var offset = inner.measuredHeight - scroll.measuredHeight

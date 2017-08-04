@@ -45,6 +45,7 @@ public class OperatorDemoActivity extends BaseActivity {
      * 参考: http://www.jianshu.com/p/bb58571cdb64
      */
     private void testZip() {
+        clearLog();
         appendLog("\n zip功能测试...");
         Observable<Integer> observable1 = Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
@@ -89,6 +90,7 @@ public class OperatorDemoActivity extends BaseActivity {
     }
 
     private void testMerge() {
+        clearLog();
         appendLog("\n merge 功能测试...");
         Observable.merge(getDataFromLocal(), getDataFromNetWork())
                 .subscribe(new Observer<HashSet<String>>() {

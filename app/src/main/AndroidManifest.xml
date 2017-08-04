@@ -24,6 +24,8 @@
         </activity>
         <activity android:name=".activity.RxbindingActivity">
         </activity>
+        <activity android:name=".activity.FilterDemoActivity">
+        </activity>
     </application>
 
 </manifest>

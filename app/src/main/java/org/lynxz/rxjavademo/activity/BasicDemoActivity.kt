@@ -38,6 +38,7 @@ class BasicDemoActivity : BaseActivity() {
      * 替代handler进行延时操作
      */
     private fun replaceHandler() {
+        clearLog()
         Observable.timer(2, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<Long> {
@@ -60,6 +61,7 @@ class BasicDemoActivity : BaseActivity() {
     }
 
     private fun testBasic() {
+        clearLog()
         Observable.create(ObservableOnSubscribe<Int> { e ->
             for (i in 0..9) {
                 appendLog(">> Observable 发射数据: $i")
@@ -106,6 +108,7 @@ class BasicDemoActivity : BaseActivity() {
      * 倒计时
      */
     private fun countdown() {
+        clearLog()
         val total = 3
         appendLog("\n开始倒计时")
         Observable.interval(0, 1, TimeUnit.SECONDS)

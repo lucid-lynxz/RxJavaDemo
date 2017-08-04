@@ -155,6 +155,7 @@ public class ErrorHandlerActivity extends BaseActivity {
      * onError error occur
      */
     private void testRetry() {
+        clearLog();
         appendLog("\n retry测试...");
         mObservable
                 .retry(2)
@@ -162,6 +163,7 @@ public class ErrorHandlerActivity extends BaseActivity {
     }
 
     private void testRetryWhen() {
+        clearLog();
         appendLog("\n retryWhen测试...");
         // 这里直接使用 mObservable 的话就无效...
 //        mObservable
@@ -232,6 +234,7 @@ public class ErrorHandlerActivity extends BaseActivity {
      * complete
      */
     private void testErrorReturn() {
+        clearLog();
         appendLog("\n errorReturn测试...");
         mObservable
                 .onErrorReturn(new Function<Throwable, Integer>() {
@@ -257,7 +260,8 @@ public class ErrorHandlerActivity extends BaseActivity {
      * complete
      */
     private void testErrorResume() {
-        appendLog("\n errorReusmeNext 测试...");
+        clearLog();
+        appendLog("\n errorResumeNext 测试...");
         mObservable
                 .onErrorResumeNext(Observable.just(111, 112))
                 .subscribe(mObserver);
@@ -288,6 +292,7 @@ public class ErrorHandlerActivity extends BaseActivity {
      * complete
      */
     private void testExceptionResume() {
+        clearLog();
         appendLog("\n onExceptionResumeNext 测试...");
         mExceptionObservable
                 .onExceptionResumeNext(Observable.just(211, 212))
