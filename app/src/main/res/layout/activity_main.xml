@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<org.lynxz.rxjavademo.view.FlowLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +12,7 @@
         android:id="@+id/btn_basic"
         style="@style/common_btn"
         android:text="basic"/>
-    
+
     <Button
         android:id="@+id/btn_operator"
         style="@style/common_btn"
@@ -27,4 +27,4 @@
         android:id="@+id/btn_rx_binding"
         style="@style/common_btn"
         android:text="rxbinding"/>
-</LinearLayout>
+</org.lynxz.rxjavademo.view.FlowLayout>

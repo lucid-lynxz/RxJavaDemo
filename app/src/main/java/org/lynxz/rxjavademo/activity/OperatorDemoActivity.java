@@ -1,5 +1,6 @@
 package org.lynxz.rxjavademo.activity;
 
+import android.content.Intent;
 import android.view.View;
 
 import org.lynxz.rxjavademo.R;
@@ -37,6 +38,12 @@ public class OperatorDemoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 testMerge();
+            }
+        });
+        findView(R.id.btn_filter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(OperatorDemoActivity.this, FilterDemoActivity.class));
             }
         });
     }

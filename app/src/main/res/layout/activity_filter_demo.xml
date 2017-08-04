@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<org.lynxz.rxjavademo.view.FlowLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,9 +8,65 @@
     tools:context="org.lynxz.rxjavademo.activity.FilterDemoActivity">
 
     <Button
+        android:id="@+id/btn_src_data"
+        style="@style/common_btn"
+        android:text="查看完整数据"/>
+
+    <Button
         android:id="@+id/btn_filter"
         style="@style/common_btn"
         android:text="filter"/>
 
+    <Button
+        android:id="@+id/btn_element_at"
+        style="@style/common_btn"
+        android:text="elementAt(1)"/>
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/btn_ignore_elements"
+        style="@style/common_btn"
+        android:text="ignoreElements"/>
+
+    <Button
+        android:id="@+id/btn_take"
+        style="@style/common_btn"
+        android:text="take"/>
+
+    <Button
+        android:id="@+id/btn_take_last"
+        style="@style/common_btn"
+        android:text="takeLast(2)"/>
+
+    <Button
+        android:id="@+id/btn_take_until"
+        style="@style/common_btn"
+        android:text="takeUntil"/>
+
+    <Button
+        android:id="@+id/btn_take_while"
+        style="@style/common_btn"
+        android:text="takeWhile"/>
+
+    <Button
+        android:id="@+id/btn_skip"
+        style="@style/common_btn"
+        android:text="skip"/>
+
+    <Button
+        android:id="@+id/btn_distinct"
+        style="@style/common_btn"
+        android:text="distinct"/>
+
+    <Button
+        android:id="@+id/btn_distinct_until_changed"
+        style="@style/common_btn"
+        android:text="distinctUntilChanged"/>
+
+
+    <Button
+        android:id="@+id/btn_debounce"
+        style="@style/common_btn"
+        android:text="debounce"/>
+
+
+</org.lynxz.rxjavademo.view.FlowLayout>

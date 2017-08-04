@@ -17,6 +17,7 @@
 
 # Files for the ART/Dalvik VM
 *.dex
+Temp.java
 
 # Java class files
 *.class

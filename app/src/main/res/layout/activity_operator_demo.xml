@@ -17,4 +17,10 @@
         android:id="@+id/btn_merge"
         style="@style/common_btn"
         android:text="merge"/>
+
+
+    <Button
+        android:id="@+id/btn_filter"
+        style="@style/common_btn"
+        android:text="过滤相关操作符"/>
 </LinearLayout>
