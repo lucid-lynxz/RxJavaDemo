@@ -27,4 +27,9 @@
         android:id="@+id/btn_rx_binding"
         style="@style/common_btn"
         android:text="rxbinding"/>
+
+    <Button
+        android:id="@+id/btn_rx_retrofit"
+        style="@style/common_btn"
+        android:text="retrofit"/>
 </org.lynxz.rxjavademo.view.FlowLayout>

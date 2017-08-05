@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.lynxz.rxjavademo">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,16 +17,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.OperatorDemoActivity">
-        </activity>
-        <activity android:name=".activity.BasicDemoActivity">
-        </activity>
-        <activity android:name=".activity.ErrorHandlerActivity">
-        </activity>
-        <activity android:name=".activity.RxbindingActivity">
-        </activity>
-        <activity android:name=".activity.FilterDemoActivity">
-        </activity>
+        <activity android:name=".activity.OperatorDemoActivity"/>
+        <activity android:name=".activity.BasicDemoActivity"/>
+        <activity android:name=".activity.ErrorHandlerActivity"/>
+        <activity android:name=".activity.RxbindingActivity"/>
+        <activity android:name=".activity.FilterDemoActivity"/>
+        <activity android:name=".activity.RetrofitDemoActivity"/>
     </application>
 
 </manifest>
