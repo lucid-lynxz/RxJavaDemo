@@ -2,18 +2,20 @@ package org.lynxz.rxjavademo.activity;
 
 import android.view.View;
 
-import org.lynxz.rxjavademo.Logger;
 import org.lynxz.rxjavademo.R;
 import org.lynxz.rxjavademo.base.BaseActivity;
 import org.lynxz.rxjavademo.bean.GithubUsaerBean;
 import org.lynxz.rxjavademo.network.GithubService;
+import org.lynxz.rxjavademo.network.RxSchedulers;
+
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -23,15 +25,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * rxjava2与retrofit配合使用
  */
 public class RetrofitDemoActivity extends BaseActivity {
+    CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+
+    OkHttpClient.Builder builder = new OkHttpClient()
+            .newBuilder()
+            .readTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS);
 
     Retrofit mRetrofit = new Retrofit.Builder()
             .baseUrl("https://api.github.com/")
+            .client(builder.build())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build();
 
     private GithubService mGithubService;
-    private Disposable mDisposable;
 
     @Override
     public int getLayoutRes() {
@@ -57,12 +65,11 @@ public class RetrofitDemoActivity extends BaseActivity {
         appendLog("通过retrofit get方法获取github用户信息");
         Observable<GithubUsaerBean> observable = mGithubService.getUserInof(userName);
         observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxSchedulers.<GithubUsaerBean>ioToMain())
                 .subscribe(new Observer<GithubUsaerBean>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-                        mDisposable = d;
+                        mCompositeDisposable.add(d);
                     }
 
                     @Override
@@ -86,9 +93,6 @@ public class RetrofitDemoActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mDisposable != null) {
-            mDisposable.dispose();
-            mDisposable = null;
-        }
+        mCompositeDisposable.clear();
     }
 }
