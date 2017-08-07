@@ -5,12 +5,27 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
+import io.reactivex.ObservableTransformer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_base.*
 import org.lynxz.rxjavademo.R
 
 
 @Suppress("UNCHECKED_CAST")
 abstract class BaseActivity : AppCompatActivity() {
+
+    private val mCompositeDisposable = CompositeDisposable()
+
+    fun <T> ioToMain(): ObservableTransformer<T, T> {
+        return ObservableTransformer { upstream ->
+            upstream.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
@@ -40,7 +55,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    protected fun clearLog(){
+    protected fun clearLog() {
         tv_logs.text = ""
     }
 
@@ -57,4 +72,17 @@ abstract class BaseActivity : AppCompatActivity() {
      * 封装findViewById()时强转功能
      */
     fun <T : View> findView(id: Int): T = findViewById(id) as T
+
+    protected fun addDisposable(d: Disposable) {
+        mCompositeDisposable.add(d)
+    }
+
+    protected fun clearDisposable() {
+        mCompositeDisposable.clear();
+    }
+
+    override fun onStop() {
+        super.onStop()
+        clearDisposable()
+    }
 }

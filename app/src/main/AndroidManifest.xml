@@ -23,6 +23,7 @@
         <activity android:name=".activity.RxbindingActivity"/>
         <activity android:name=".activity.FilterDemoActivity"/>
         <activity android:name=".activity.RetrofitDemoActivity"/>
+        <activity android:name=".activity.SubjectDemoActivity"/>
     </application>
 
 </manifest>

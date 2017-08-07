@@ -13,5 +13,6 @@ class MainActivity : BaseActivity() {
         btn_error.setOnClickListener { startActivity(Intent(this@MainActivity, ErrorHandlerActivity::class.java)) }
         btn_rx_binding.setOnClickListener { startActivity(Intent(this@MainActivity, RxbindingActivity::class.java)) }
         btn_rx_retrofit.setOnClickListener { startActivity(Intent(this@MainActivity, RetrofitDemoActivity::class.java)) }
+        btn_rx_subject.setOnClickListener { startActivity(Intent(this@MainActivity, SubjectDemoActivity::class.java)) }
     }
 }

@@ -10,14 +10,9 @@ import org.lynxz.rxjavademo.network.GithubService;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.ObservableTransformer;
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -28,8 +23,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * rxjava2与retrofit配合使用
  */
 public class RetrofitDemoActivity extends BaseActivity {
-    CompositeDisposable mCompositeDisposable = new CompositeDisposable();
-
     OkHttpClient.Builder builder = new OkHttpClient()
             .newBuilder()
             .readTimeout(10, TimeUnit.SECONDS)
@@ -43,16 +36,6 @@ public class RetrofitDemoActivity extends BaseActivity {
             .build();
 
     private GithubService mGithubService;
-
-    public static <T> ObservableTransformer<T, T> ioToMain() {
-        return new ObservableTransformer<T, T>() {
-            @Override
-            public ObservableSource<T> apply(@NonNull Observable<T> upstream) {
-                return upstream.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
-    }
 
     @Override
     public int getLayoutRes() {
@@ -78,11 +61,11 @@ public class RetrofitDemoActivity extends BaseActivity {
         appendLog("通过retrofit get方法获取github用户信息");
         Observable<GithubUsaerBean> observable = mGithubService.getUserInof(userName);
         observable
-                .compose(RetrofitDemoActivity.<GithubUsaerBean>ioToMain())
+                .compose(this.<GithubUsaerBean>ioToMain())
                 .subscribe(new Observer<GithubUsaerBean>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-                        mCompositeDisposable.add(d);
+                        addDisposable(d);
                     }
 
                     @Override
@@ -101,11 +84,5 @@ public class RetrofitDemoActivity extends BaseActivity {
                         appendLog("onComplete");
                     }
                 });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mCompositeDisposable.clear();
     }
 }

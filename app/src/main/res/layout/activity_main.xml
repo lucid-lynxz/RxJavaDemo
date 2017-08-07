@@ -32,4 +32,9 @@
         android:id="@+id/btn_rx_retrofit"
         style="@style/common_btn"
         android:text="retrofit"/>
+
+    <Button
+        android:id="@+id/btn_rx_subject"
+        style="@style/common_btn"
+        android:text="subject"/>
 </org.lynxz.rxjavademo.view.FlowLayout>
