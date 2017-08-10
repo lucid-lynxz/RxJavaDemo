@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<org.lynxz.rxjavademo.view.FlowLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +7,11 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     tools:context="org.lynxz.rxjavademo.activity.OperatorDemoActivity">
+
+    <Button
+        android:id="@+id/btn_ori_data"
+        style="@style/common_btn"
+        android:text="查看源数据"/>
 
     <Button
         android:id="@+id/btn_zip"
@@ -18,9 +23,14 @@
         style="@style/common_btn"
         android:text="merge"/>
 
+    <Button
+        android:id="@+id/btn_concat"
+        style="@style/common_btn"
+        android:text="concat"/>
+
 
     <Button
         android:id="@+id/btn_filter"
         style="@style/common_btn"
         android:text="过滤相关操作符"/>
-</LinearLayout>
+</org.lynxz.rxjavademo.view.FlowLayout>

@@ -1,6 +1,8 @@
 package org.lynxz.rxjavademo
 
 import android.content.Intent
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.rxkotlin.toObservable
 import kotlinx.android.synthetic.main.activity_main.*
 import org.lynxz.rxjavademo.activity.*
 import org.lynxz.rxjavademo.base.BaseActivity
