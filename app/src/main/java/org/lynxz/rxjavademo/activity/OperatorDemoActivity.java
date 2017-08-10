@@ -29,7 +29,8 @@ public class OperatorDemoActivity extends BaseActivity {
                 e.onNext(i);
                 Thread.sleep(200);
             }
-            // 对于concat操作需要明确发出complete事件才会接收其他observable信息
+            // 对于concat/repeat等操作需要明确发出complete事件才会接收其他observable信息
+            appendLog("Observable1 发送事件onComplete");
             e.onComplete();
         }
     }).subscribeOn(Schedulers.io());
@@ -42,9 +43,31 @@ public class OperatorDemoActivity extends BaseActivity {
                 appendLog("Observable2 发送事件onNext: " + msg);
                 e.onNext(msg);
             }
+            appendLog("Observable2 发送事件onComplete");
             e.onComplete();
         }
     }).subscribeOn(Schedulers.io());
+
+    private Observer<Serializable> mObserver = new Observer<Serializable>() {
+        @Override
+        public void onSubscribe(@NonNull Disposable d) {
+        }
+
+        @Override
+        public void onNext(@NonNull Serializable serializable) {
+            appendLog("<< onNext: " + serializable);
+        }
+
+        @Override
+        public void onError(@NonNull Throwable e) {
+            appendLog("<< onError: " + e.getMessage());
+        }
+
+        @Override
+        public void onComplete() {
+            appendLog("<< onComplete");
+        }
+    };
 
     @Override
     public int getLayoutRes() {
@@ -83,6 +106,20 @@ public class OperatorDemoActivity extends BaseActivity {
                 showOriData();
             }
         });
+
+        findView(R.id.btn_repeat).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testRepeat(2);
+            }
+        });
+    }
+
+    private void testRepeat(int times) {
+        clearLog();
+        appendLog("\nrepeat示例\n可重复发射某个Observable,当收到onComplete后会再次触发订阅,重新发射\n");
+        observable1.repeat(times).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mObserver);
     }
 
     /**
@@ -98,26 +135,7 @@ public class OperatorDemoActivity extends BaseActivity {
         appendLog("\nconcat 功能测试\n" +
                 "按顺序接收各observable发射的数据,要求前一个observable发出onComplete()后才会继续接收下一个Observable的数据\n");
         Observable.concat(observable1, observable2)
-                .subscribe(new Observer<Serializable>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                    }
-
-                    @Override
-                    public void onNext(@NonNull Serializable serializable) {
-                        appendLog("<< onNext: " + serializable);
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        appendLog("<< onError: " + e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        appendLog("<< onComplete");
-                    }
-                });
+                .subscribe(mObserver);
     }
 
     /**

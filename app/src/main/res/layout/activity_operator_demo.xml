@@ -14,6 +14,11 @@
         android:text="查看源数据"/>
 
     <Button
+        android:id="@+id/btn_repeat"
+        style="@style/common_btn"
+        android:text="repeat"/>
+
+    <Button
         android:id="@+id/btn_zip"
         style="@style/common_btn"
         android:text="zip"/>

@@ -39,11 +39,12 @@ class BasicDemoActivity : BaseActivity() {
      */
     private fun replaceHandler() {
         clearLog()
+        appendLog("Timer操作符创建一个在给定的时间段之后返回一个特殊值(0)的Observable\n")
         Observable.timer(2, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<Long> {
                     override fun onSubscribe(@NonNull d: Disposable) {
-                        appendLog("onSubscribe")
+                        appendLog("${System.currentTimeMillis()} onSubscribe ")
                     }
 
                     override fun onNext(aLong: Long) {
@@ -62,6 +63,7 @@ class BasicDemoActivity : BaseActivity() {
 
     private fun testBasic() {
         clearLog()
+        appendLog("Observable 被 Observable 订阅(subscribe),订阅时Observer会获得一个非空对象Disposable, 可以通过它来取消后续数据的接收\n")
         Observable.create(ObservableOnSubscribe<Int> { e ->
             for (i in 0..9) {
                 appendLog(">> Observable 发射数据: $i")
@@ -110,7 +112,7 @@ class BasicDemoActivity : BaseActivity() {
     private fun countdown() {
         clearLog()
         val total = 3
-        appendLog("\n开始倒计时")
+        appendLog("\n开始倒计时,使用interval操作符,它会按固定的时间间隔发射一个无限递增的整数序列\n")
         Observable.interval(0, 1, TimeUnit.SECONDS)
                 .take((total + 1).toLong())
                 .map { aLong -> total - aLong }
